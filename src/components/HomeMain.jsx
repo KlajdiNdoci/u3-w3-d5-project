@@ -1,45 +1,75 @@
 import { Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import HomeCardsContainer from "./HomeCardsContainer";
-import SearchedCardsContainer from "./SearchedCardsContainer copy";
+
+import { useEffect, useState } from "react";
+import MainLinks from "./MainLinks";
+import SearchedCardsContainer from "./SearchedCardsContainer";
 
 const HomeMain = () => {
+  let rockArtists = ["queen", "u2", "thepolice", "eagles", "thedoors", "oasis", "thewho", "bonjovi"];
+
+  let popArtists = ["maroon5", "coldplay", "onerepublic", "jamesblunt", "katyperry", "arianagrande"];
+
+  let hipHopArtists = ["eminem", "snoopdogg", "lilwayne", "drake", "kanyewest"];
+
+  const [rockRandomArtists, setRockRandomArtists] = useState([]);
+  const [popRandomArtists, setPopRandomArtists] = useState([]);
+  const [hipHopRandomArtists, setHipHopRandomArtists] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const rockRandomArtistsTemp = [];
+      const popRandomArtistsTemp = [];
+      const hipHopRandomArtistsTemp = [];
+
+      while (rockRandomArtistsTemp.length < 4) {
+        const artist = rockArtists[Math.floor(Math.random() * rockArtists.length)];
+        if (!rockRandomArtistsTemp.includes(artist)) {
+          rockRandomArtistsTemp.push(artist);
+        }
+      }
+
+      while (popRandomArtistsTemp.length < 4) {
+        const artist = popArtists[Math.floor(Math.random() * popArtists.length)];
+        if (!popRandomArtistsTemp.includes(artist)) {
+          popRandomArtistsTemp.push(artist);
+        }
+      }
+
+      while (hipHopRandomArtistsTemp.length < 4) {
+        const artist = hipHopArtists[Math.floor(Math.random() * hipHopArtists.length)];
+        if (!hipHopRandomArtistsTemp.includes(artist)) {
+          hipHopRandomArtistsTemp.push(artist);
+        }
+      }
+
+      setRockRandomArtists(rockRandomArtistsTemp);
+      setPopRandomArtists(popRandomArtistsTemp);
+      setHipHopRandomArtists(hipHopRandomArtistsTemp);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
-      <Col xs={12} md={{ span: 9, offset: 3 }} className="mainPage text-white">
-        <Row>
-          <Col xs={9} lg={11} className="mainLinks d-none d-md-flex">
-            <Link to="#" className="text-decoration-none">
-              TRENDING
-            </Link>
-            <Link to="#" className="text-decoration-none">
-              PODCAST
-            </Link>
-            <Link to="#" className="text-decoration-none">
-              MOODS AND GENRES
-            </Link>
-            <Link to="#" className="text-decoration-none">
-              NEW RELEASES
-            </Link>
-            <Link to="#" className="text-decoration-none">
-              DISCOVER
-            </Link>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={10}>
-            <div id="searchResults" style={{ display: "none" }}>
-              <h2 className="text-start">Search Results</h2>
-              <Row className="row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3">
+      {rockRandomArtists && popRandomArtists && hipHopRandomArtists && (
+        <Col xs={12} md={{ span: 9, offset: 3 }} className="mainPage text-white">
+          <MainLinks />
+          <Row>
+            <Col xs={10}>
+              <div id="searchResults">
+                <h2 className="text-start">Search Results</h2>
+
                 <SearchedCardsContainer />
-              </Row>
-            </div>
-          </Col>
-        </Row>
-        <HomeCardsContainer title="Rock Classics" />
-        <HomeCardsContainer title="Pop Culture" />
-        <HomeCardsContainer title="#HipHop" />
-      </Col>
+              </div>
+            </Col>
+          </Row>
+          <HomeCardsContainer title="Rock Classics" artists={rockRandomArtists} />
+          <HomeCardsContainer title="Pop Culture" artists={popRandomArtists} />
+          <HomeCardsContainer title="#HipHop" artists={hipHopRandomArtists} />
+        </Col>
+      )}
     </>
   );
 };

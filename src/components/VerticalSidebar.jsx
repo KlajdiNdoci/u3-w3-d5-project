@@ -5,41 +5,11 @@ import { Button, Col, Form, InputGroup, Navbar } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 import { Link } from "react-router-dom";
-import { saveSearchResults } from "../redux/actions/index.js";
+import { search } from "../redux/actions/index.js";
 
 const VerticalSidebar = () => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
-
-  const search = async query => {
-    if (query.length > 2) {
-      const url = "https://deezerdevs-deezer.p.rapidapi.com/search?q=" + query;
-      const options = {
-        method: "GET",
-        headers: {
-          "X-RapidAPI-Key": "4dee4a6d79msh10e7f11101e9eafp1eb14cjsn68ce37f58686",
-          "X-RapidAPI-Host": "deezerdevs-deezer.p.rapidapi.com",
-        },
-      };
-
-      try {
-        const response = await fetch(url, options);
-
-        if (response.ok) {
-          const result = await response.json();
-          const songs = result.data;
-
-          dispatch(saveSearchResults(songs));
-        } else {
-          console.log("Errore nella ricerca");
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      dispatch(saveSearchResults([]));
-    }
-  };
 
   const handleChange = e => {
     setQuery(e.target.value);
@@ -47,7 +17,6 @@ const VerticalSidebar = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    search();
     dispatch(search(query));
   };
 

@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 import VerticalSidebar from "./components/VerticalSidebar";
 import HomeMain from "./components/HomeMain";
+import Player from "./components/Player";
+import ArtistPage from "./components/ArtistPage";
 
 function App() {
   return (
@@ -12,13 +14,14 @@ function App() {
         <Container fluid>
           <Row>
             <VerticalSidebar />
-            <HomeMain />
+
             <Routes>
-              {/* <Route path="/" element={<MyArticles />} />
-              <Route path="/details/:id" element={<Details />} /> */}
+              <Route path="/" element={<HomeMain />} />
+              <Route path="/artist/:id" element={<ArtistPage />} />
             </Routes>
           </Row>
         </Container>
+        <Player />
       </BrowserRouter>
     </div>
   );

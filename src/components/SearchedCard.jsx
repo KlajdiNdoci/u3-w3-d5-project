@@ -1,24 +1,27 @@
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const SearchedCard = ({ album }) => {
+const SearchedCard = ({ song }) => {
+  console.log(song);
   return (
     <>
-      <Col className="text-center" id={album.album.id}>
-        <Link to="/album_page.html?id={songInfo.album.id}">
-          <img className="img-fluid" src={album.album.cover_medium} alt="1" />
-        </Link>
-        <p>
-          <Link to="/album_page.html?id={songInfo.album.id}" className="text-decoration-none">
-            Album: "$
-            {album.album.title.length < 16 ? `${album.album.title}` : `${album.album.title.substring(0, 16)}...`}
-            "<br />
+      {song && (
+        <Col className="text-center" id={song.album.id}>
+          <Link to={`/album/${song.album.id}`}>
+            <img className="img-fluid" src={song.album.cover_medium} alt="1" />
           </Link>
-          <Link to="/artist_page.html?id={songInfo.artist.id} " className="text-decoration-none">
-            Artist: ${album.artist.name}
-          </Link>
-        </p>
-      </Col>
+          <p>
+            <Link to={`/album/${song.album.id}`} className="text-decoration-none">
+              Album: "$
+              {song.album.title.length < 16 ? `${song.album.title}` : `${song.album.title.substring(0, 16)}...`}
+              "<br />
+            </Link>
+            <Link to={`/artist/${song.artist.id}`} className="text-decoration-none">
+              Artist: ${song.artist.name}
+            </Link>
+          </p>
+        </Col>
+      )}
     </>
   );
 };
